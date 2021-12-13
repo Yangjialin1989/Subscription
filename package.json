@@ -1,0 +1,15 @@
+{
+  "name": "subscription",
+  "version": "1.0.0",
+  "description": "Wechat subscription",
+  "main": "验证服务器有效性.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sha1": "^1.1.1"
+  }
+}
