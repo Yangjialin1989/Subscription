@@ -11,5 +11,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "sha1": "^1.1.1"
+  },
+  "devDependencies": {
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9"
   }
 }
