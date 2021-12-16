@@ -42,7 +42,13 @@ module.exports = message => {
         //用户订阅/取消订阅事件
         if (message.Event === 'subscribe') {
             //用户订阅
-            content = '欢迎您的关注!'
+            content = '欢迎您的关注!\n'+
+                '回复 首页 能看到电影预告片\n'+
+                '回复 热门 能看到最热门的电压\n'+
+                '回复 语音 可以查到电影信息\n'+
+                '也可以点击下面的按钮,了解公众号';
+
+
             if (message.EventKey) {
                 content = '用户扫描了带参数的二维码关注事件';
             }
@@ -56,7 +62,11 @@ module.exports = message => {
             content = `纬度: ${message.Latitude} 经度: ${message.Longitude} 地理位置信息: ${message.Precision}`;
 
         } else if (message.Event === 'CLICK') {
-            content =  `您点击了按钮:${message.EventKey}`;
+            content = '您可以按照以下提示进行操作!\n'+
+                '回复 首页 能看到电影预告片\n'+
+                '回复 热门 能看到最热门的电压\n'+
+                '回复 语音 可以查到电影信息\n'+
+                '也可以点击下面的按钮,了解公众号';
         }
 
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>天气查询</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./weather.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!--左边部分-->
+    <div class="weather-side">
+        <!--渐变-->
+      <div class="gradient"></div>
+      <div class="date-container">
+        <h2 class="date-dayname" id="date-dayname">周二</h2>
+        <span class="date-day" id="date-day">2020-3-24</span>
+        <!--location图标-->
+        <span class='iconfont' id="location">&#xe600;北京</span>
+      </div>
+
+      <div class="weater-container">
+          <!--天气图标-->
+          <span class="iconfont" id="weather-1">&#xe61f;
+</span>
+          <div class="weather-temp"  id="weather-temp">25℃</div>
+          <div class="weather-desc" id="weather-desc">晴天</div>
+      </div>
+    </div>
+    <!--右边部分-->
+    <div class="info-side">
+        <div class="today-info-container">
+            <div class="today-info">
+                <!--PM2.5-->
+                <div class="pm clear">
+                    <span class="title">PM2.5</span>
+                    <span class="value">00</span>
+                </div>
+                <!--湿度-->
+                <div class="humidity clear">
+                    <span class="title">湿度</span>
+                    <span class="value">00</span>
+                </div>
+                <!--风速-->
+                <div class="wind clear">
+                    <span class="title">风速</span>
+                    <span class="value">00</span>
+                </div>
+            </div>
+        </div>
+        <div class="week-container">
+            <ul class="week-list">
+                <li class="active">
+                    <!--天气图标-->
+                    <span class="iconfont">&#xe61d;</span>
+                    <span class="day-name">星期二</span>
+                    <span class="day-temp">25℃</span>
+                </li>
+                <li>
+                    <!--天气图标-->
+                    <span class="iconfont">&#xe606;</span>
+                    <span class="day-name">星期三</span>
+                    <span class="day-temp">25℃</span>
+                </li>
+                <li>
+                    <!--天气图标-->
+                    <span class="iconfont">&#xec6a;</span>
+                    <span class="day-name">星期四</span>
+                    <span class="day-temp">25℃</span>
+                </li>
+                <li>
+                    <!--天气图标-->
+                    <span class="iconfont">&#xe610;</span>
+                    <span class="day-name">星期五</span>
+                    <span class="day-temp">25℃</span>
+                </li>
+            </ul>
+        </div>
+        <div class="location-container">
+            <input type="text" placeholder="位置" id="city">
+            <button class="location-button" id="location-button">
+                <span>查询</span>
+            </button>
+        </div>
+    </div>
+  </div>
+</body>
+</html>
