@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<!--    移动端响应式-->
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<!--    可以在相应的页面的<head>里加上这句代码，意思是自动将http的不安全请求升级为https-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>search</title>
+</head>
+<body>
+    <h1 id="search">语音识别查天气</h1>
+    <p id="searchText"></p>
+    <hr>
+    <h2>天气数据展示</h2>
+    <ul id="list">
+
+    </ul>
+    <h1>分享到朋友圈或者</h1>
+<!--    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>-->
+<!--    <script type="text/javascript" src="../utils/jweixin-1.6.0.js"></script>-->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<!--    移动端事件库-->
+    <script src="https://cdn.bootcdn.net/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
+    <script type="text/javascript">
+        /*
+        * 1.绑定域名
+        * 2.引入js文件
+        * 3.通过config接口注入权限验证配置
+        * */
+        //验证权限配置
+
+        wx.config({
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: 'wxbbb63c35cff0a39a', // 必填，公众号的唯一标识
+            timestamp: '<%= timestamp %>', // 必填，生成签名的时间戳
+            nonceStr: '<%= noncestr %>', // 必填，生成签名的随机串
+            signature: '<%= signature %>',// 必填，签名
+            jsApiList: [
+                'onMenuShareQZone',
+                'startRecord',//开始录音
+                'stopRecord',
+                'translateVoice'//语音识别
+            ] // 必填，需要使用的JS接口列表
+        });
+
+        //通过ready接口处理成功验证
+        wx.ready(function(){
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+            //接口编程
+            //1.基础接口
+            wx.checkJsApi({
+                jsApiList: [
+                    'onMenuShareQZone',
+                    'startRecord',
+                    'stopRecord',
+                    'translateVoice',
+                    'chooseImage'],
+                success: function(res) {
+                    // 以键值对的形式返回，可用的api值true，不可用为false
+                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                    console.log(res);
+                }
+            });
+//https://api.rixingyike.com/doubanapiv2/movie/coming_soon?start=0&count=3
+            //http://t.yushu.im模拟结果 ,去豆瓣请求电影数据http://api.douban.com/v2/movie/search?q={text}
+            //https://movie.douban.com//v2/movie/search?q={text}
+
+
+
+
+            //语音识别功能 点击事件
+
+            //设置标志位,是否在录音中
+            var isRecord = false;
+
+            $('#search').tap(function () {
+                if (!isRecord) {
+                    //开始录音
+                    wx.startRecord();
+                    isRecord = true;
+                } else {
+                    //结束录音
+                    wx.stopRecord({
+                        success: function (res) {
+                            //录好的音上传到微信服务器 ,服务器返回一个id给开发者
+                            var localId = res.localId;
+
+                            //将录音转换为文字
+                            wx.translateVoice({
+                                localId: localId, // 需要识别的音频的本地Id，由录音相关接口获得
+                                isShowProgressTips: 1, // 默认为1，显示进度提示
+                                success: function (res) {
+                                    //alert(res.translateResult); // 语音识别的结果
+                                    const city = res.translateResult.slice(0,res.translateResult.length-1);
+                                    //alert(city);
+
+                                    var url = `https://v0.yiketianqi.com/api?unescape=1&version=v9&appid=84532775&appsecret=I2l6vzON&city=${city}&callback=?`;
+                                    alert(url);
+                                    $('#searchText').innerHTML = url;
+                                    $.getJSON(url, function (data) {
+                                        //数据渲染到页面
+                                        var {data} = data;
+                                        alert(data);
+                                        var html = '';
+                                        data.forEach(function (item) {
+                                            html += '<h3>'+item.day+'</h3>'+
+                                                '<h3>'+item.wea+'</h3>'+
+                                            '<h3>'+item.tem+'</h3>';
+                                        })
+                                        $('#list').html(html);
+
+
+                                    })
+
+                                }
+                            });
+
+
+
+                            isRecord = false;
+                        }
+                    })
+                }
+
+
+
+
+            })
+
+
+
+        });
+
+        //通过error接口处理失败验证
+        wx.error(function(res){
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+
+        });
+
+    </script>
+</body>
+</html>
