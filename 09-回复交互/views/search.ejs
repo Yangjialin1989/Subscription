@@ -96,12 +96,12 @@
                                     //alert(city);
 
                                     var url = `https://v0.yiketianqi.com/api?unescape=1&version=v9&appid=84532775&appsecret=I2l6vzON&city=${city}&callback=?`;
-                                    alert(url);
+                                    console.log(url);
                                     $('#searchText').innerHTML = url;
                                     $.getJSON(url, function (data) {
                                         //数据渲染到页面
                                         var {data} = data;
-                                        alert(data);
+                                        console.log(data);
                                         var html = '';
                                         data.forEach(function (item) {
                                             html += '<h3>'+item.day+'</h3>'+
